@@ -40,11 +40,11 @@ public class FileBrowserActivity extends Activity {
     public static final String showCannotReadParameter = "org.samux.samu.dsync.showCannotRead";
     public static final String filterExtension = "org.samux.samu.dsync.filterExtension";
 
-    ArrayList<String> pathDirsList = new ArrayList<String>();
+    ArrayList<String> pathDirsList = new ArrayList<>();
 
     private static final String LOGTAG = "F_PATH";
 
-    private List<ItemFile> fileList = new ArrayList<ItemFile>();
+    private List<ItemFile> fileList = new ArrayList<>();
     private File path = null;
     private String chosenFile;
     // private static final int DIALOG_LOAD_FILE = 1000;
@@ -54,8 +54,6 @@ public class FileBrowserActivity extends Activity {
     private boolean showHiddenFilesAndDirs = true;
 
     private boolean directoryShownIsEmpty = false;
-
-    private String filterFileExtension = null;
 
     // Action constants
     private static int currentAction = -1;
@@ -75,7 +73,6 @@ public class FileBrowserActivity extends Activity {
             currentAction = SELECT_FILE;
         }
         showHiddenFilesAndDirs = thisInt.getBooleanExtra(showCannotReadParameter, true);
-        filterFileExtension = thisInt.getStringExtra(filterExtension);
         setInitialDirectory();
         parseDirectoryPath();
         loadFileList();
@@ -130,8 +127,7 @@ public class FileBrowserActivity extends Activity {
             }
         });// upDirButton.setOnClickListener(
 
-        Button selectFolderButton = (Button) this
-                .findViewById(R.id.selectCurrentDirectoryButton);
+        Button selectFolderButton = (Button) this.findViewById(R.id.selectCurrentDirectoryButton);
         if (currentAction == SELECT_DIRECTORY) {
             selectFolderButton.setOnClickListener(new OnClickListener() {
                 public void onClick(View v) {
@@ -161,26 +157,12 @@ public class FileBrowserActivity extends Activity {
             i++;
         }
         if (pathDirsList.size() == 0) {
-            ((Button) this.findViewById(R.id.upDirectoryButton))
-                    .setEnabled(false);
+            this.findViewById(R.id.upDirectoryButton).setEnabled(false);
             curDirString = "/";
         } else
-            ((Button) this.findViewById(R.id.upDirectoryButton))
-                    .setEnabled(true);
-        //long freeSpace = getFreeSpace(curDirString);
-        //String formattedSpaceString = formatBytes(freeSpace);
-        //if (freeSpace == 0) {
-        //    Log.d(LOGTAG, "NO FREE SPACE");
-            File currentDir = new File(curDirString);
-            if(!currentDir.canWrite())
-        //        formattedSpaceString = "NON Writable";
-        //}
-
-        ((Button) this.findViewById(R.id.selectCurrentDirectoryButton))
-                .setText(getString(R.string.select) + "\n[" + curDirString + "]");
-
-        ((TextView) this.findViewById(R.id.currentDirectoryTextView))
-                .setText(getString(R.string.curdir) + curDirString);
+            this.findViewById(R.id.upDirectoryButton).setEnabled(true);
+        ((Button) this.findViewById(R.id.selectCurrentDirectoryButton)).setText(getString(R.string.select));
+        ( (TextView) this.findViewById(R.id.currentDirectoryTextView)).setText(getString(R.string.curdir) + curDirString);
     }// END private void updateCurrentDirectoryTextView() {
 
     private void showToast(String message) {
@@ -213,9 +195,7 @@ public class FileBrowserActivity extends Activity {
                     } else {// if(sel.canRead()) {
                         showToast("Path does not exist or cannot be read");
                     }// } else {//if(sel.canRead()) {
-                }// if (sel.isDirectory()) {
-                    // File picked or an empty directory message clicked
-                else {// if (sel.isDirectory()) {
+                } else {// if (sel.isDirectory()) {
                     Log.d(LOGTAG, "item clicked");
                     if (!directoryShownIsEmpty) {
                         Log.d(LOGTAG, "File selected:" + chosenFile);
@@ -241,13 +221,7 @@ public class FileBrowserActivity extends Activity {
     }// END private void returnDirectoryFinishActivity() {
 
     private void loadFileList() {
-        try {
-            path.mkdirs();
-        } catch (SecurityException e) {
-            Log.e(LOGTAG, "unable to write on the sd card ");
-        }
         fileList.clear();
-
         if (path.exists() && path.canRead()) {
             FilenameFilter filter = new FilenameFilter() {
                 public boolean accept(File dir, String filename) {
@@ -331,10 +305,6 @@ public class FileBrowserActivity extends Activity {
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             Log.d(LOGTAG, "ORIENTATION_PORTRAIT");
         }
-        // Layout apparently changes itself, only have to provide good onMeasure
-        // in custom components
-        // TODO: check with keyboard
-        // if(newConfig.keyboard == Configuration.KEYBOARDHIDDEN_YES)
-    }// END public void onConfigurationChanged(Configuration newConfig) {
+    }
 
 }
