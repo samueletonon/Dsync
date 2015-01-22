@@ -133,7 +133,7 @@ public class gDrive2 extends ActionBarActivity {
         mListView.setAdapter(adapter);
         setInitialDirectory();
         loadFileList();
-        //this.createFileListAdapter();
+        this.createFileListAdapter();
         this.initializeButtons();
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
