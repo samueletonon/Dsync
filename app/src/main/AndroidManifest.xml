@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.samux.samu.dsync"
+    android:versionCode="1"
+    android:versionName="alpha" >
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".gDrive1"
+            android:label="@string/title_activity_gDrive1"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.samux.samu.dsync.MainActivity" />
+        </activity>
+        <activity
+            android:name=".gDrive2"
+            android:label="@string/title_activity_gDrive2"
+            android:parentActivityName=".gDrive1" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.samux.samu.dsync.gDrive1" />
+        </activity>
+        <activity
+            android:name=".FileBrowserActivity"
+            android:label="@string/title_activity_filebrowser"
+            android:parentActivityName=".gDrive2" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.samux.samu.dsync.gDrive2" />
+        </activity>
+    </application>
+
+</manifest>
