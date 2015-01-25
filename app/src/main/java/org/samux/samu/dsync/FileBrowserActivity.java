@@ -12,11 +12,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +36,6 @@ public class FileBrowserActivity extends Activity {
     public static final String returnDirectoryParameter = "org.samux.samu.dsync.directoryPathRet";
     public static final String returnFileParameter = "org.samux.samu.dsync.filePathRet";
     public static final String showCannotReadParameter = "org.samux.samu.dsync.showCannotRead";
-    public static final String filterExtension = "org.samux.samu.dsync.filterExtension";
 
     ArrayList<String> pathDirsList = new ArrayList<>();
 
@@ -161,7 +158,7 @@ public class FileBrowserActivity extends Activity {
             curDirString = "/";
         } else
             this.findViewById(R.id.upDirectoryButton).setEnabled(true);
-        ((Button) this.findViewById(R.id.selectCurrentDirectoryButton)).setText(getString(R.string.select));
+        //((Button) this.findViewById(R.id.selectCurrentDirectoryButton)).setText(getString(R.string.select));
         ( (TextView) this.findViewById(R.id.currentDirectoryTextView)).setText(getString(R.string.curdir) + curDirString);
     }// END private void updateCurrentDirectoryTextView() {
 
@@ -171,17 +168,13 @@ public class FileBrowserActivity extends Activity {
 
     private void initializeFileListView() {
         ListView lView = (ListView) this.findViewById(R.id.fileListView);
-        lView.setBackgroundColor(Color.LTGRAY);
-        LinearLayout.LayoutParams lParam = new LinearLayout.LayoutParams(
-                LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-        lParam.setMargins(15, 5, 15, 5);
         lView.setAdapter(this.adapter);
         lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                     int position, long id) {
                 chosenFile = fileList.get(position).file;
                 File sel = new File(path + "/" + chosenFile);
-                Log.d(LOGTAG, "Clicked:" + chosenFile);
+                Log.v(LOGTAG, "item Clicked:" + chosenFile);
                 if (sel.isDirectory()) {
                     if (sel.canRead()) {
                         // Adds chosen directory to list
@@ -237,6 +230,7 @@ public class FileBrowserActivity extends Activity {
             };
             String[] fList = path.list(filter);
             this.directoryShownIsEmpty = false;
+            Log.d(LOGTAG,"Selected Dir");
             for (int i = 0; i < fList.length; i++) {
                 // Convert into file path
                 File sel = new File(path, fList[i]);
@@ -247,12 +241,12 @@ public class FileBrowserActivity extends Activity {
                 if (sel.isDirectory()) {
                     drawableID = R.drawable.folder_icon;
                 }
-                fileList.add(i, new ItemFile(fList[i], drawableID, canRead));
+                fileList.add(i, new ItemFile(fList[i], drawableID, canRead,""));
             }// for (int i = 0; i < fList.length; i++) {
             if (fileList.size() == 0) {
                 // Log.d(LOGTAG, "This directory is empty");
                 this.directoryShownIsEmpty = true;
-                fileList.add(0, new ItemFile(getString(R.string.empty), -1, true));
+                fileList.add(0, new ItemFile(getString(R.string.empty), -1, true,""));
             } else {// sort non empty list
                 Collections.sort(fileList, new ItemFileNameComparator());
             }
