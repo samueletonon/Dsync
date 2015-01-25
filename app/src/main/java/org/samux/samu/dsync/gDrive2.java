@@ -178,7 +178,7 @@ public class gDrive2 extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_CODE_PICK_FILE_TO_SAVE_INTERNAL:
-                if (resultCode == this.RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     String newDir = data.getStringExtra(FileBrowserActivity.returnDirectoryParameter);
                     Toast.makeText(this, "Received path from file browser:" + newDir,
                             Toast.LENGTH_LONG).show();

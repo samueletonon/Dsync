@@ -1,9 +1,5 @@
 package org.samux.samu.dsync;
 
-/**
- * Created by samu on 19/01/15.
- */
-
 public class ItemFile {
     public String file;
     public int icon;
