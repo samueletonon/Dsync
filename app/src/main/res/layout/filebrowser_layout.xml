@@ -22,6 +22,7 @@
             android:layout_weight="1"
             android:padding="0dp"
             android:drawableLeft="@drawable/dir_up"
+            android:drawableStart="@drawable/dir_up"
             android:text="@string/up"/>
 
         <Button

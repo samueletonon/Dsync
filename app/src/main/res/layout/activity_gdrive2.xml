@@ -22,6 +22,7 @@
             android:layout_weight="1"
             android:padding="0dp"
             android:drawableLeft="@drawable/dir_up"
+            android:drawableStart="@drawable/dir_up"
             android:text="@string/up"/>
 
         <Button
@@ -45,7 +46,7 @@
     <ListView
         android:id="@+id/listViewResults"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
+        android:layout_height="wrap_content"
         android:alwaysDrawnWithCache="true"
         android:dividerHeight="1dp"
         android:horizontalSpacing="3dp"

@@ -2,6 +2,7 @@ package org.samux.samu.dsync;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,10 +24,8 @@ import java.util.Arrays;
 public class gDrive1 extends ActionBarActivity {
 
     private static final String APPLICATION_NAME = "Dsync";
-    public final static String AName = "org.samux.MESSAGE";
     static final int REQUEST_ACCOUNT_PICKER = 1;
     static final int REQUEST_AUTHORIZATION = 2;
-    static final int LAUNCH_SETUP2 = 3;
     public static Drive service;
     private GoogleAccountCredential credential;
     private static final String TAG = "gDrive1";
@@ -59,12 +58,10 @@ public class gDrive1 extends ActionBarActivity {
                             @Override
                             public void run() {
                                 try {
-                                    final StringBuilder sb = new StringBuilder();
                                     FileList list = service.files().list().execute();
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            return;
                                         }
                                     });
 
@@ -96,7 +93,7 @@ public class gDrive1 extends ActionBarActivity {
     }
 
     private void nextActivity(){
-        SharedPreferences Pref = getPreferences(MODE_PRIVATE);
+        SharedPreferences Pref = getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = Pref.edit();
         editor.putString("account", accountName);
         editor.commit();

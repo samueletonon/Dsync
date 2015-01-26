@@ -2,13 +2,15 @@ package org.samux.samu.dsync;
 
 
 //General Java imports 
-import android.app.Activity;
+
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,7 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class FileBrowserActivity extends Activity {
+public class FileBrowserActivity extends ActionBarActivity {
     // Intent Action Constants
     public static final String INTENT_ACTION_SELECT_DIR = "org.samux.samu.dsync.SELECT_DIRECTORY_ACTION";
     public static final String INTENT_ACTION_SELECT_FILE = "org.samux.samu.dsync.SELECT_FILE_ACTION";
@@ -45,7 +47,6 @@ public class FileBrowserActivity extends Activity {
     private List<ItemFile> fileList = new ArrayList<>();
     private File path = null;
     private String chosenFile;
-    // private static final int DIALOG_LOAD_FILE = 1000;
 
     ArrayAdapter<ItemFile> adapter;
 
@@ -199,10 +200,7 @@ public class FileBrowserActivity extends Activity {
     }// private void initializeFileListView() {
 
     private void returnDirectoryFinishActivity() {
-        //Intent retIntent = new Intent();
-        //retIntent.putExtra(returnDirectoryParameter, path.getAbsolutePath());
-        //this.setResult(RESULT_OK, retIntent);
-        SharedPreferences Pref = getPreferences(MODE_PRIVATE);
+        SharedPreferences Pref = getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = Pref.edit();
         editor.putString("localfolder", path.getAbsolutePath());
         editor.commit();
@@ -225,10 +223,7 @@ public class FileBrowserActivity extends Activity {
                     boolean showReadableFile = showHiddenFilesAndDirs
                             || sel.canRead();
                     // Filters based on whether the file is hidden or not
-                    if (currentAction == SELECT_DIRECTORY) {
-                        return (sel.isDirectory() && showReadableFile);
-                    }
-                    return true;
+                    return currentAction != SELECT_DIRECTORY || (sel.isDirectory() && showReadableFile);
                 }
             };
             String[] fList = path.list(filter);

@@ -1,5 +1,6 @@
 package org.samux.samu.dsync;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -34,37 +35,33 @@ public class gDrive2 extends ActionBarActivity {
     static final int REQUEST_CODE_PICK_FILE_TO_SAVE_INTERNAL = 1;
     static final int GET_LOCAL_FOLDER = 2;
     static final int NEXT_DFOLDER = 3;
-    private ListView mListView;
-    private List<ItemFile> fileList = new ArrayList<ItemFile>();
+    private List<ItemFile> fileList = new ArrayList<>();
     ArrayAdapter<ItemFile> adapter;
-    private String query;
     private ItemFile parentddir = null;
     private ItemFile ddir = null;
 
     private void setParents(String driveid) {
         try {
             File file = gDrive1.service.files().get(driveid).execute();
-            Log.v(TAG, "t: " + file.getTitle());
             List<ParentReference> pr = file.getParents();
             if (pr.size() == 0) {
                 parentddir = null;
             }else {
-                Log.v(TAG, "unm :" + pr.get(0).getId());
                 parentddir.driveid = pr.get(0).getId();
             }
-            Log.v(TAG, "d: " + pr.size());
         } catch (IOException e) {
             Log.e(TAG, "", e);
         }
     }
     private List<File> retrieveAllFiles(Drive service) {
-        List<File> result = new ArrayList<File>();
+        List<File> result = new ArrayList<>();
         Files.List request;
         try {
+            String query;
             if (ddir == null) {
-                this.query = "mimeType='application/vnd.google-apps.folder' and trashed=false and ('root' in parents or sharedWithMe)";
+                query = "mimeType='application/vnd.google-apps.folder' and trashed=false and ('root' in parents or sharedWithMe)";
             } else {
-                this.query = "mimeType='application/vnd.google-apps.folder' and trashed=false and '" + ddir.driveid +  "' in parents";
+                query = "mimeType='application/vnd.google-apps.folder' and trashed=false and '" + ddir.driveid +  "' in parents";
                 Log.v(TAG,"q "+ query);
             }
             request = service.files().list().setQ(query);
@@ -125,7 +122,7 @@ public class gDrive2 extends ActionBarActivity {
         //Intent retIntent = new Intent();
         //retIntent.putExtra(returnDirectoryParameter, path.getAbsolutePath());
         //this.setResult(RESULT_OK, retIntent);
-        SharedPreferences Pref = getPreferences(MODE_PRIVATE);
+        SharedPreferences Pref = getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = Pref.edit();
         editor.putString("driveid", ddir.driveid);
         editor.commit();
@@ -171,11 +168,10 @@ public class gDrive2 extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gdrive2);
-        //setInitialDirectory();
         loadFileList();
         this.createFileListAdapter();
         this.initializeButtons();
-        mListView = (ListView)findViewById(R.id.listViewResults);
+        ListView mListView = (ListView) findViewById(R.id.listViewResults);
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {

@@ -12,7 +12,7 @@
     <string name="up">Up</string>
     <string name="empty">Directory is empty</string>
     <string name="cancel">Cancel</string>
-    <string name="title_activity_gDrive1">Drive</string>
+    <string name="title_activity_gDrive1">Wizard</string>
     <string name="title_activity_gDrive2">Google Drive</string>
     <string name="title_activity_filebrowser">Local Folders</string>
 
