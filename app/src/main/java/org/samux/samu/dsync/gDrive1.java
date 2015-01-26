@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -23,9 +24,9 @@ import java.util.Arrays;
 
 public class gDrive1 extends ActionBarActivity {
 
-    private static final String APPLICATION_NAME = "Dsync";
     static final int REQUEST_ACCOUNT_PICKER = 1;
     static final int REQUEST_AUTHORIZATION = 2;
+    static final int GET_DRIVE_FOLDER = 3;
     public static Drive service;
     private GoogleAccountCredential credential;
     private static final String TAG = "gDrive1";
@@ -84,12 +85,23 @@ public class gDrive1 extends ActionBarActivity {
                     startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
                 }
                 break;
+            case GET_DRIVE_FOLDER:
+                if (resultCode == Activity.RESULT_OK) {
+                    Log.d(TAG, "ok");
+                    Intent Idata = new Intent();
+                    this.setResult(RESULT_OK, Idata);
+                    this.finish();
+                } else {
+                    Log.d(TAG, "ahio "+ resultCode);
+                    startActivityForResult(gDrive2,GET_DRIVE_FOLDER);
+                }
+                break;
         }
     }
 
     private Drive getDriveService(GoogleAccountCredential credential) {
         return new Drive.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), credential)
-            .setApplicationName(APPLICATION_NAME).build();
+            .setApplicationName(MainActivity.APPLICATION_NAME).build();
     }
 
     private void nextActivity(){
@@ -97,7 +109,6 @@ public class gDrive1 extends ActionBarActivity {
         SharedPreferences.Editor editor = Pref.edit();
         editor.putString("account", accountName);
         editor.commit();
-        startActivity(gDrive2);
-        this.finish();
+        startActivityForResult(gDrive2, GET_DRIVE_FOLDER);
     }
 }

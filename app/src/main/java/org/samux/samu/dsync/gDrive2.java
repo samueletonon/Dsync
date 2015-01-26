@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.Drive.Files;
@@ -33,8 +32,6 @@ public class gDrive2 extends ActionBarActivity {
     private static final String TAG = "Setup2";
     List<File> mGFile;
     static final int REQUEST_CODE_PICK_FILE_TO_SAVE_INTERNAL = 1;
-    static final int GET_LOCAL_FOLDER = 2;
-    static final int NEXT_DFOLDER = 3;
     private List<ItemFile> fileList = new ArrayList<>();
     ArrayAdapter<ItemFile> adapter;
     private ItemFile parentddir = null;
@@ -113,22 +110,9 @@ public class gDrive2 extends ActionBarActivity {
             public void onClick(View v) {
                 Log.d(TAG, "onclick for selectFolderButton");
                 getLocalFolder();
-                returnDirectoryFinishActivity();
             }
         });
     }
-
-    private void returnDirectoryFinishActivity() {
-        //Intent retIntent = new Intent();
-        //retIntent.putExtra(returnDirectoryParameter, path.getAbsolutePath());
-        //this.setResult(RESULT_OK, retIntent);
-        SharedPreferences Pref = getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = Pref.edit();
-        editor.putString("driveid", ddir.driveid);
-        editor.commit();
-        this.finish();
-    }
-
 
     private void loadFileList() {
         String msg = getString(R.string.select_text);
@@ -211,27 +195,24 @@ public class gDrive2 extends ActionBarActivity {
         switch (requestCode) {
             case REQUEST_CODE_PICK_FILE_TO_SAVE_INTERNAL:
                 if (resultCode == RESULT_OK) {
-                    String newDir = data.getStringExtra(FileBrowserActivity.returnDirectoryParameter);
-                    Toast.makeText(this, "Received path from file browser:" + newDir,
-                            Toast.LENGTH_LONG).show();
+                    Log.d(TAG, "ok");
+                    Intent Idata = new Intent();
+                    this.setResult(RESULT_OK, Idata);
+                    this.finish();
                 } else {
-                    Toast.makeText(this, "Received NO result from file browser",
-                            Toast.LENGTH_LONG).show();
+                    Log.d(TAG, "ahio "+ resultCode);
+                    Intent fileExploreIntent = new Intent(FileBrowserActivity.INTENT_ACTION_SELECT_DIR,null,this,FileBrowserActivity.class);
+                    startActivityForResult(fileExploreIntent,REQUEST_CODE_PICK_FILE_TO_SAVE_INTERNAL);
                 }
-                super.onActivityResult(requestCode, resultCode, data);
-                break;
-            case GET_LOCAL_FOLDER:
-                Intent fileExploreIntent = new Intent(FileBrowserActivity.INTENT_ACTION_SELECT_DIR, null, this, FileBrowserActivity.class);
-                startActivityForResult(fileExploreIntent, REQUEST_CODE_PICK_FILE_TO_SAVE_INTERNAL);
-                break;
-            case NEXT_DFOLDER:
-                Toast.makeText(this, "Next",Toast.LENGTH_LONG).show();
                 break;
         }
     }
 
     public void getLocalFolder(){
-         //gDrive2 = new Intent(this, gDrive2.class);
+        SharedPreferences Pref = getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = Pref.edit();
+        editor.putString("driveid", ddir.driveid);
+        editor.commit();
         Intent fileExploreIntent = new Intent(FileBrowserActivity.INTENT_ACTION_SELECT_DIR,null,this,FileBrowserActivity.class);
         startActivityForResult(fileExploreIntent,REQUEST_CODE_PICK_FILE_TO_SAVE_INTERNAL);
     }

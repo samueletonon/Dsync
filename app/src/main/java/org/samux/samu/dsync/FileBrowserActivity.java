@@ -36,7 +36,6 @@ public class FileBrowserActivity extends ActionBarActivity {
 
     // Intent parameters names constants
     public static final String startDirectoryParameter = "org.samux.samu.dsync.directoryPath";
-    public static final String returnDirectoryParameter = "org.samux.samu.dsync.directoryPathRet";
     public static final String returnFileParameter = "org.samux.samu.dsync.filePathRet";
     public static final String showCannotReadParameter = "org.samux.samu.dsync.showCannotRead";
 
@@ -204,6 +203,8 @@ public class FileBrowserActivity extends ActionBarActivity {
         SharedPreferences.Editor editor = Pref.edit();
         editor.putString("localfolder", path.getAbsolutePath());
         editor.commit();
+        Intent data = new Intent();
+        this.setResult(RESULT_OK, data);
         this.finish();
     }// END private void returnDirectoryFinishActivity() {
 
