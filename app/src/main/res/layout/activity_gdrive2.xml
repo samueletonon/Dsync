@@ -37,7 +37,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/currentDirectoryTextView2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/select_text" />

@@ -1,6 +1,7 @@
 package org.samux.samu.dsync;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -18,6 +19,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.Drive.Files;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.google.api.services.drive.model.ParentReference;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,20 +38,34 @@ public class gDrive2 extends ActionBarActivity {
     private List<ItemFile> fileList = new ArrayList<ItemFile>();
     ArrayAdapter<ItemFile> adapter;
     private String query;
-    private ItemFile updrivedir = null;
-    private ItemFile drivedir = null;
+    private ItemFile parentddir = null;
+    private ItemFile ddir = null;
 
-
-    private List<File> retrieveAllFiles(Drive service) throws IOException {
+    private void setParents(String driveid) {
+        try {
+            File file = gDrive1.service.files().get(driveid).execute();
+            Log.v(TAG, "t: " + file.getTitle());
+            List<ParentReference> pr = file.getParents();
+            if (pr.size() == 0) {
+                parentddir = null;
+            }else {
+                Log.v(TAG, "unm :" + pr.get(0).getId());
+                parentddir.driveid = pr.get(0).getId();
+            }
+            Log.v(TAG, "d: " + pr.size());
+        } catch (IOException e) {
+            Log.e(TAG, "", e);
+        }
+    }
+    private List<File> retrieveAllFiles(Drive service) {
         List<File> result = new ArrayList<File>();
         Files.List request;
-        Log.d(TAG, "retrieveAllFiles");
         try {
-            if (drivedir == null) {
+            if (ddir == null) {
                 this.query = "mimeType='application/vnd.google-apps.folder' and trashed=false and ('root' in parents or sharedWithMe)";
             } else {
-                this.query = "mimeType='application/vnd.google-apps.folder' and trashed=false and '" + drivedir.driveid +  "' in parents";
-                Log.v(TAG,"q: " + this.query);
+                this.query = "mimeType='application/vnd.google-apps.folder' and trashed=false and '" + ddir.driveid +  "' in parents";
+                Log.v(TAG,"q "+ query);
             }
             request = service.files().list().setQ(query);
         } catch (IOException e) {
@@ -73,10 +89,25 @@ public class gDrive2 extends ActionBarActivity {
         upDirButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.d(TAG, "onclick for upDirButton");
-                loadDirectoryUp();
+                fileList.clear();
+                ddir = parentddir;
+                if (ddir != null) {
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setParents(ddir.driveid);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapter.notifyDataSetChanged();
+                                }
+                            });
+                        }
+                    });
+                    t.start();
+                }
                 loadFileList();
-                //TODO
-                //updateCurrentDirectoryTextView();
+
             }
         });
         Button selectFolderButton = (Button) this
@@ -85,27 +116,34 @@ public class gDrive2 extends ActionBarActivity {
             public void onClick(View v) {
                 Log.d(TAG, "onclick for selectFolderButton");
                 getLocalFolder();
-                //returnDirectoryFinishActivity();
+                returnDirectoryFinishActivity();
             }
         });
-
     }
 
-    private void loadDirectoryUp() {
-        fileList.clear();
-        drivedir = updrivedir;
+    private void returnDirectoryFinishActivity() {
+        //Intent retIntent = new Intent();
+        //retIntent.putExtra(returnDirectoryParameter, path.getAbsolutePath());
+        //this.setResult(RESULT_OK, retIntent);
+        SharedPreferences Pref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = Pref.edit();
+        editor.putString("driveid", ddir.driveid);
+        editor.commit();
+        this.finish();
     }
+
 
     private void loadFileList() {
+        String msg = getString(R.string.select_text);
+        if (ddir != null)
+            msg = getString(R.string.curdir) + ddir.file;
+        ( (TextView) this.findViewById(R.id.currentDirectoryTextView2)).setText(msg);
+
         this.findViewById(R.id.selectDirectory2).setEnabled(false);
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    mGFile = retrieveAllFiles(gDrive1.service);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                mGFile = retrieveAllFiles(gDrive1.service);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -115,7 +153,6 @@ public class gDrive2 extends ActionBarActivity {
                             int drawableID = R.drawable.folder_icon;
                             int i=0;
                             for (File file : mGFile) {
-                                Log.v(TAG,"e " + file.getId());
                                 fileList.add(i, new ItemFile(file.getTitle(), drawableID, true, file.getId()));
                                 i++;
                             }
@@ -142,9 +179,8 @@ public class gDrive2 extends ActionBarActivity {
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                updrivedir = drivedir;
-                drivedir = fileList.get(position);
-                Log.v(TAG, "item Clicked:" + drivedir.file);
+                parentddir = ddir;
+                ddir = fileList.get(position);
                 fileList.clear();
                 loadFileList();
             }

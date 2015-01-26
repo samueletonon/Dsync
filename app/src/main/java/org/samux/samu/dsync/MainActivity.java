@@ -15,12 +15,11 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         launch_setup();
         setContentView(R.layout.activity_main);
-
     }
 
     private void launch_setup() {
         SharedPreferences Pref = getPreferences(MODE_PRIVATE);
-        if (! Pref.contains("src")) {
+        if (! Pref.contains("localfolder")) {
             //launch the wizard
             Intent intent = new Intent(this, gDrive1.class);
             startActivity(intent);

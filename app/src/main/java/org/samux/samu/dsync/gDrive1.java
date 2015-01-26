@@ -3,6 +3,7 @@ package org.samux.samu.dsync;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -30,6 +31,7 @@ public class gDrive1 extends ActionBarActivity {
     private GoogleAccountCredential credential;
     private static final String TAG = "gDrive1";
     private static Intent gDrive2;
+    private String accountName;
 
 
     @Override
@@ -49,7 +51,7 @@ public class gDrive1 extends ActionBarActivity {
         switch (requestCode) {
             case REQUEST_ACCOUNT_PICKER:
                 if (resultCode == RESULT_OK && data != null && data.getExtras() != null) {
-                    String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                    accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                     if (accountName != null) {
                         credential.setSelectedAccountName(accountName);
                         service = getDriveService(credential);
@@ -74,13 +76,13 @@ public class gDrive1 extends ActionBarActivity {
                             }
                         });
                         t.start();
-                        startActivity(gDrive2);
+                        nextActivity();
                     }
                 }
                 break;
             case REQUEST_AUTHORIZATION:
                 if (resultCode == Activity.RESULT_OK) {
-                    startActivity(gDrive2);
+                    nextActivity();
                 } else {
                     startActivityForResult(credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
                 }
@@ -93,4 +95,12 @@ public class gDrive1 extends ActionBarActivity {
             .setApplicationName(APPLICATION_NAME).build();
     }
 
+    private void nextActivity(){
+        SharedPreferences Pref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = Pref.edit();
+        editor.putString("account", accountName);
+        editor.commit();
+        startActivity(gDrive2);
+        this.finish();
+    }
 }

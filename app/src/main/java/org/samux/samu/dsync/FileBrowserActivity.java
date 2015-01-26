@@ -4,6 +4,7 @@ package org.samux.samu.dsync;
 //General Java imports 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -77,7 +78,6 @@ public class FileBrowserActivity extends Activity {
         this.initializeButtons();
         this.initializeFileListView();
         updateCurrentDirectoryTextView();
-        //Log.d(LOGTAG, path.getAbsolutePath());
     }
 
     private void setInitialDirectory() {
@@ -158,7 +158,6 @@ public class FileBrowserActivity extends Activity {
             curDirString = "/";
         } else
             this.findViewById(R.id.upDirectoryButton).setEnabled(true);
-        //((Button) this.findViewById(R.id.selectCurrentDirectoryButton)).setText(getString(R.string.select));
         ( (TextView) this.findViewById(R.id.currentDirectoryTextView)).setText(getString(R.string.curdir) + curDirString);
     }// END private void updateCurrentDirectoryTextView() {
 
@@ -200,9 +199,13 @@ public class FileBrowserActivity extends Activity {
     }// private void initializeFileListView() {
 
     private void returnDirectoryFinishActivity() {
-        Intent retIntent = new Intent();
-        retIntent.putExtra(returnDirectoryParameter, path.getAbsolutePath());
-        this.setResult(RESULT_OK, retIntent);
+        //Intent retIntent = new Intent();
+        //retIntent.putExtra(returnDirectoryParameter, path.getAbsolutePath());
+        //this.setResult(RESULT_OK, retIntent);
+        SharedPreferences Pref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = Pref.edit();
+        editor.putString("localfolder", path.getAbsolutePath());
+        editor.commit();
         this.finish();
     }// END private void returnDirectoryFinishActivity() {
 
@@ -277,13 +280,7 @@ public class FileBrowserActivity extends Activity {
 
                 textView.setEllipsize(null);
 
-                // add margin between image and text (support various screen
-                // densities)
-                // int dp5 = (int) (5 *
-                // getResources().getDisplayMetrics().density + 0.5f);
                 int dp3 = (int) (3 * getResources().getDisplayMetrics().density + 0.5f);
-                // TODO: change next line for empty directory, so text will be
-                // centered
                 textView.setCompoundDrawablePadding(dp3);
                 textView.setBackgroundColor(Color.LTGRAY);
                 return view;
