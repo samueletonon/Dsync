@@ -39,17 +39,15 @@ public class MainActivity extends ActionBarActivity {
     private static final String TAG = "Mact";
     static final int GET_DRIVE_ACCOUNT = 1;
 
-    private List<ItemFile> fileList = new ArrayList<>();
     public int processed, total;
     private int started=0;
     private String localpath;
     private String aName;
     private String driveId;
     public static Drive service;
-    List<com.google.api.services.drive.model.File> GFile;
-    private Thread t=null;
+    List<ItemFile> GFile;
+    private GetDAT gdt=null;
     private ProgressBar mProgress;
-    InputStream dFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,34 +87,41 @@ public class MainActivity extends ActionBarActivity {
         mainAction();
     }
 
-    private List<com.google.api.services.drive.model.File> retrieveAllFiles(String ddir) {
-        List<com.google.api.services.drive.model.File> result = new ArrayList<>();
+    private List<ItemFile> retrieveAllFiles(String ddir,String Lpath) {
+        List<ItemFile> Iresult = new ArrayList<>();
         Drive.Files.List request;
         try {
             String query;
             query = "trashed=false and '" + ddir +  "' in parents";
             request = service.files().list().setQ(query);
         } catch (IOException e) {
-            return result;
+            return Iresult;
         }
         do {
             try {
                 FileList files = request.execute();
-                result.addAll(files.getItems());
+                //result.addAll(files.getItems());
+                for (com.google.api.services.drive.model.File f: files.getItems()){
+                    if (f.getMimeType().matches("application/vnd.google-apps.folder")){
+                        Iresult.addAll(retrieveAllFiles(f.getId(),Lpath + "/" + f.getTitle()));
+                    }
+                    Iresult.add(new ItemFile(Lpath + "/" + f.getTitle(), 0, true, f.getId(),f));
+                    total++;
+                }
                 request.setPageToken(files.getNextPageToken());
             } catch (IOException e) {
                 Log.e(TAG, "", e);
                 request.setPageToken(null);
             }
         } while (request.getPageToken() != null && request.getPageToken().length() > 0);
-        return result;
+        return Iresult;
     }
 
     public void onStopStart(View view){
         if(started == 1) {
             started = 0;
-            if(t!=null)
-                t=null;
+            if (gdt!=null)
+                gdt.cancel(true);
         } else {
             started = 1;
         }
@@ -145,72 +150,111 @@ public class MainActivity extends ActionBarActivity {
             service = new Drive.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), credential)
                     .setApplicationName(APPLICATION_NAME).build();
             Log.v(TAG, "" + driveId);
-
-            t = getDrive(driveId, localpath);
-            try {
-                t.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            gdt = new GetDAT();
+            gdt.fromroot(service, driveId, localpath,0);
+            gdt.execute();
             Log.v(TAG,"main routine");
-            //Main Routine to download file
-            for (ItemFile sf : fileList) {
-                File lf = new File(sf.file);
-                if (lf.exists() && !lf.isDirectory()) {
-                    String drivemd5 = sf.dFile.getMd5Checksum();
-                    String lmd5 = fileToMD5(sf.file);
-                    if (lmd5.equals(drivemd5)) {
-                        Log.v(TAG, "same");
-                        return;
-                    }
-                }
-                DDFile md = new DDFile();
-                md.DownloadFile(service, sf.dFile, lf);
-                md.execute();
-            }
-
         } else {
             ( (Button) this.findViewById(R.id.actionbutton)).setText(getString(R.string.start));
         }
     }
 
-    private Thread getDrive(final String iddrive,final String lpath){
-        Thread lt = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                GFile = retrieveAllFiles(iddrive);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (com.google.api.services.drive.model.File f: GFile){
-                            Log.v(TAG,"elaborating");
-                            if (f.getMimeType().matches("application/vnd.google-apps.folder")){
-                                String tpath = lpath + "/" + f.getTitle();
-                                File theDir = new File(tpath);
-                                if (!theDir.exists()) {
-                                    try {
-                                        theDir.mkdir();
-                                    } catch (SecurityException se) {
-                                        Log.e(TAG, "");
-                                    }
-                                }
-                                Thread xt = getDrive(f.getId(),tpath);
-                            } else {
-                                fileList.add(total, new ItemFile(lpath + "/" + f.getTitle(), 0, true, f.getId(),f));
-                                total++;
-                                String text = processed + "/" + total + "  " + getString(R.string.processedV);
-                                ( (TextView) findViewById(R.id.processedText)).setText(text);
-                            }
+    public class GetDAT extends AsyncTask<Void,Long,Boolean>{
+        private Drive service;
+        private String iddrive;
+        private String lpath;
+        private int localn;
+
+        public void fromroot(Drive service, String driveid, String l_path, int localint){
+            this.service = service;
+            this.iddrive = driveid;
+            this.lpath = l_path;
+            this.localn = localint;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            mProgress.setProgress(0);
+            mProgress.setVisibility(View.VISIBLE);
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            GFile = retrieveAllFiles(iddrive,lpath);
+            for (ItemFile sf : GFile) {
+                if (sf.dFile.getMimeType().matches("application/vnd.google-apps.folder")) {
+                    //String tpath = lpath + "/" + f.getTitle();
+                    Log.v(TAG,"new dir:"+ sf.file);
+                    File theDir = new File(sf.file);
+                    if (!theDir.exists()) {
+                        try {
+                            theDir.mkdir();
+                        } catch (SecurityException se) {
+                            Log.e(TAG, "");
                         }
                     }
-                });
+                } else {
+                    //Main Routine to download file
+                    File lf = new File(sf.file);
+                    if (lf.exists() && !lf.isDirectory()) {
+                        String drivemd5 = sf.dFile.getMd5Checksum();
+                        String lmd5 = fileToMD5(sf.file);
+                        if (lmd5.equals(drivemd5)) {
+                            Log.v(TAG, "same");
+                        }
+                    }
+                    if (!isCancelled() && sf.dFile.getDownloadUrl() != null
+                            && sf.dFile.getDownloadUrl().length() > 0) {
+                        try {
+                            Log.v(TAG, "Go:" +sf.file);
+                            HttpResponse resp = service.getRequestFactory()
+                                    .buildGetRequest(new GenericUrl(sf.dFile.getDownloadUrl()))
+                                    .execute();
+                            OutputStream os = new FileOutputStream(lf);
+                            CopyStream(sf.dFile.getFileSize(), resp.getContent(), os);
+                            os.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Log.e(TAG, "Error");
+                        }
+                    }
+                }
+                processed++;
+                publishProgress((long)0);
             }
-        });
-        lt.start();
-        return lt;
+            return true;
+        }
 
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if(localn == 0){
+                //launch fileretriever
+                Log.v(TAG,"all done");
+            }
+        }
+        @Override
+        protected void onProgressUpdate(Long... progress) {
+            mProgress.setProgress(progress[0].intValue());
+            String text = processed + "/" + total + "  " + getString(R.string.processedV);
+            ((TextView) findViewById(R.id.processedText)).setText(text);
+        }
+
+        public void CopyStream(long size, InputStream is, OutputStream os) {
+            final int buffer_size = 1024;
+            try {
+                byte[] bytes = new byte[buffer_size];
+                for (int count=0,prog=0;count>=0;) {
+                    count = is.read(bytes, 0, buffer_size);
+                    os.write(bytes, 0, count);
+                    prog=prog+count;
+                    publishProgress(((long) prog)*100/size);
+                }
+            } catch (Exception ex) {
+                Log.e(TAG,"CS "+ex);
+            }
+        }
     }
-
 
     public static String fileToMD5(String filePath) {
         InputStream inputStream = null;
@@ -246,81 +290,5 @@ public class MainActivity extends ActionBarActivity {
         }
         return returnVal.toLowerCase();
     }
-
-    public class DDFile extends AsyncTask<Void, Integer, Boolean> {
-
-        private Drive service;
-        private com.google.api.services.drive.model.File driveFile;
-        private java.io.File file;
-
-        public void DownloadFile(Drive dservice, com.google.api.services.drive.model.File driveFile, java.io.File lfile) {
-            this.driveFile = driveFile;
-            this.file = lfile;
-            this.service =  dservice;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            //textView.setText("Hello !!!");
-            //mProgress = (ProgressBar) findViewById(R.id.progressBar);
-            mProgress.setProgress(0);
-            mProgress.setVisibility(View.VISIBLE);
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            if (driveFile.getDownloadUrl() != null
-                    && driveFile.getDownloadUrl().length() > 0) {
-                try {
-                    Log.v(TAG,"Go");
-                    HttpResponse resp = service.getRequestFactory()
-                            .buildGetRequest(new GenericUrl(driveFile.getDownloadUrl()))
-                            .execute();
-                    OutputStream os = new FileOutputStream(file);
-                    CopyStream(driveFile.size(),resp.getContent(), os);
-                    os.close();
-                    return true;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... progress) {
-            mProgress.setProgress(progress[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            //use the file
-            Log.v(TAG,"done");
-            mProgress.setVisibility(View.INVISIBLE);
-            processed++;
-            String text = processed + "/" + total + getString(R.string.processedV);
-            ( (TextView) findViewById(R.id.processedText)).setText(text);
-        }
-
-        public void CopyStream(int size, InputStream is, OutputStream os) {
-            final int buffer_size = 1024;
-            try {
-                byte[] bytes = new byte[buffer_size];
-                for (int count=0,prog=0;count!=-1;) {
-                    count = is.read(bytes, 0, buffer_size);
-                    os.write(bytes, 0, count);
-                    prog=prog+count;
-                    publishProgress(prog*100/size);
-                }
-            } catch (Exception ex) {
-                Log.e(TAG,"CS "+ex);
-            }
-        }
-    }
-
-
 
 }
