@@ -241,13 +241,13 @@ public class FileBrowserActivity extends ActionBarActivity {
                     drawableID = R.drawable.folder_icon;
                 }
                 if (canRead) {
-                    fileList.add(i, new ItemFile(fList[i], drawableID, canRead, ""));
+                    fileList.add(i, new ItemFile(fList[i], drawableID, canRead, "",null));
                 }
             }// for (int i = 0; i < fList.length; i++) {
             if (fileList.size() == 0) {
                 // Log.d(LOGTAG, "This directory is empty");
                 this.directoryShownIsEmpty = true;
-                fileList.add(0, new ItemFile(getString(R.string.empty), -1, true,""));
+                fileList.add(0, new ItemFile(getString(R.string.empty), -1, true,"",null));
             } else {// sort non empty list
                 Collections.sort(fileList, new ItemFileNameComparator());
             }

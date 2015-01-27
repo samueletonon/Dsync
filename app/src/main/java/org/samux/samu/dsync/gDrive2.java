@@ -129,12 +129,12 @@ public class gDrive2 extends ActionBarActivity {
                     @Override
                     public void run() {
                         if (mGFile.size() == 0){
-                            fileList.add(0, new ItemFile(getString(R.string.empty), -1, true,""));
+                            fileList.add(0, new ItemFile(getString(R.string.empty), -1, true,"",null));
                         } else {
                             int drawableID = R.drawable.folder_icon;
                             int i=0;
                             for (File file : mGFile) {
-                                fileList.add(i, new ItemFile(file.getTitle(), drawableID, true, file.getId()));
+                                fileList.add(i, new ItemFile(file.getTitle(), drawableID, true, file.getId(),file));
                                 i++;
                             }
                         }
