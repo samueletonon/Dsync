@@ -16,10 +16,10 @@
     <string name="start">Start</string>
     <string name="edit">Edit</string>
     <string name="processed">0 / 0  files processed</string>
-    <string name="processedV">   files processed</string>
+    <string name="processedV">files processed</string>
     <string name="title_activity_gDrive1">Wizard</string>
     <string name="title_activity_gDrive2">Google Drive</string>
     <string name="title_activity_filebrowser">Local Folders</string>
-
+    <string name="title_activity_drive_list">driveList</string>
 
 </resources>

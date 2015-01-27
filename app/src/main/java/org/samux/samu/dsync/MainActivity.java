@@ -145,6 +145,7 @@ public class MainActivity extends ActionBarActivity {
             service = new Drive.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), credential)
                     .setApplicationName(APPLICATION_NAME).build();
             Log.v(TAG, "" + driveId);
+
             t = getDrive(driveId, localpath);
             try {
                 t.join();
