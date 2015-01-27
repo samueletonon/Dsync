@@ -240,7 +240,9 @@ public class FileBrowserActivity extends ActionBarActivity {
                 if (sel.isDirectory()) {
                     drawableID = R.drawable.folder_icon;
                 }
-                fileList.add(i, new ItemFile(fList[i], drawableID, canRead,""));
+                if (canRead) {
+                    fileList.add(i, new ItemFile(fList[i], drawableID, canRead, ""));
+                }
             }// for (int i = 0; i < fList.length; i++) {
             if (fileList.size() == 0) {
                 // Log.d(LOGTAG, "This directory is empty");
