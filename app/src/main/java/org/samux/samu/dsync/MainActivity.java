@@ -229,7 +229,6 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             if(localn == 0){
-                //launch fileretriever
                 Log.v(TAG,"all done");
             }
         }
