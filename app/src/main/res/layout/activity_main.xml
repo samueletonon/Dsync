@@ -42,7 +42,7 @@
 
     <Space
         android:layout_width="20dp"
-        android:layout_height="10dp" />
+        android:layout_height="30dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -53,7 +53,19 @@
 
     <Space
         android:layout_width="20dp"
-        android:layout_height="60dp" />
+        android:layout_height="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/processedfileText"
+        android:layout_gravity="center_horizontal" />
+
+
+    <Space
+        android:layout_width="20dp"
+        android:layout_height="80dp" />
 
     <ProgressBar
         style="@android:style/Widget.ProgressBar.Horizontal"

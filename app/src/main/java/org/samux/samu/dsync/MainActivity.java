@@ -48,6 +48,7 @@ public class MainActivity extends ActionBarActivity {
     List<ItemFile> GFile;
     private GetDAT gdt=null;
     private ProgressBar mProgress;
+    private String procfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class MainActivity extends ActionBarActivity {
         mProgress = (ProgressBar) findViewById(R.id.progressBar);
         mProgress.setIndeterminate(false);
         mProgress.setMax(100);
+        procfile="";
 
         SharedPreferences Pref = getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
         if (! Pref.contains("localfolder")) {
@@ -142,7 +144,6 @@ public class MainActivity extends ActionBarActivity {
             total=0;
             mProgress.setProgress(0);
             ( (TextView) findViewById(R.id.processedText)).setText(R.string.processed);
-
             ( (Button) this.findViewById(R.id.actionbutton)).setText(getString(R.string.stop));
 
             GoogleAccountCredential credential = GoogleAccountCredential.usingOAuth2(this, Arrays.asList(DriveScopes.DRIVE));
@@ -208,6 +209,8 @@ public class MainActivity extends ActionBarActivity {
                             && sf.dFile.getDownloadUrl().length() > 0) {
                         try {
                             Log.v(TAG, "Go:" +sf.file);
+                            procfile = "Downloading file: " + sf.dFile.getTitle();
+                            publishProgress((long)0);
                             HttpResponse resp = service.getRequestFactory()
                                     .buildGetRequest(new GenericUrl(sf.dFile.getDownloadUrl()))
                                     .execute();
@@ -236,6 +239,7 @@ public class MainActivity extends ActionBarActivity {
         protected void onProgressUpdate(Long... progress) {
             mProgress.setProgress(progress[0].intValue());
             String text = processed + "/" + total + "  " + getString(R.string.processedV);
+            ((TextView) findViewById(R.id.processedfileText)).setText(procfile);
             ((TextView) findViewById(R.id.processedText)).setText(text);
         }
 
