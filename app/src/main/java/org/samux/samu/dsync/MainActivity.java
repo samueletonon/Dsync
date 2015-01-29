@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -65,6 +66,10 @@ public class MainActivity extends ActionBarActivity {
         } else {
             mainAction();
         }
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -150,11 +155,9 @@ public class MainActivity extends ActionBarActivity {
             credential.setSelectedAccountName(aName);
             service = new Drive.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), credential)
                     .setApplicationName(APPLICATION_NAME).build();
-            Log.v(TAG, "" + driveId);
             gdt = new GetDAT();
             gdt.fromroot(service, driveId, localpath,0);
             gdt.execute();
-            Log.v(TAG,"main routine");
         } else {
             ( (Button) this.findViewById(R.id.actionbutton)).setText(getString(R.string.start));
         }
@@ -185,8 +188,6 @@ public class MainActivity extends ActionBarActivity {
             GFile = retrieveAllFiles(iddrive,lpath);
             for (ItemFile sf : GFile) {
                 if (sf.dFile.getMimeType().matches("application/vnd.google-apps.folder")) {
-                    //String tpath = lpath + "/" + f.getTitle();
-                    Log.v(TAG,"new dir:"+ sf.file);
                     File theDir = new File(sf.file);
                     if (!theDir.exists()) {
                         try {
@@ -197,18 +198,20 @@ public class MainActivity extends ActionBarActivity {
                     }
                 } else {
                     //Main Routine to download file
+                    boolean same=false;
                     File lf = new File(sf.file);
                     if (lf.exists() && !lf.isDirectory()) {
                         String drivemd5 = sf.dFile.getMd5Checksum();
                         String lmd5 = fileToMD5(sf.file);
                         if (lmd5.equals(drivemd5)) {
-                            Log.v(TAG, "same");
+                            same=true;
+                        } else {
+                            Log.v(TAG,lmd5 + ":"+drivemd5);
                         }
                     }
                     if (!isCancelled() && sf.dFile.getDownloadUrl() != null
-                            && sf.dFile.getDownloadUrl().length() > 0) {
+                            && sf.dFile.getDownloadUrl().length() > 0 && !same) {
                         try {
-                            Log.v(TAG, "Go:" +sf.file);
                             procfile = "Downloading file: " + sf.dFile.getTitle();
                             publishProgress((long)0);
                             HttpResponse resp = service.getRequestFactory()
@@ -232,7 +235,11 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             if(localn == 0){
-                Log.v(TAG,"all done");
+                procfile="";
+                publishProgress((long)0);
+                ((Button) findViewById(R.id.actionbutton)).setText(getString(R.string.start));
+                showToast(getString(R.string.Alldone));
+                started=0;
             }
         }
         @Override
@@ -245,17 +252,22 @@ public class MainActivity extends ActionBarActivity {
 
         public void CopyStream(long size, InputStream is, OutputStream os) {
             final int buffer_size = 4096;
+            byte[] bytes = new byte[buffer_size];
             try {
-                byte[] bytes = new byte[buffer_size];
-                for (int count=0,prog=0;count!=-1;) {
-                    count = is.read(bytes);
-                    os.write(bytes, 0, count);
-                    prog=prog+count;
-                    publishProgress(((long) prog)*100/size);
+                int count,prog=0;
+                while ((count = is.read(bytes)) != -1) {
+                    os.write(bytes, 0, count); //write buffer
+                    prog = prog + count;
+                    publishProgress(((long) prog) * 100 / size);
                 }
+
                 os.flush();
                 is.close();
                 os.close();
+            } catch (IOException e){
+                Log.e(TAG,"stop");
+                showToast(getString(R.string.writerror) + e );
+                this.cancel(true);
             } catch (Exception ex) {
                 Log.e(TAG,"CS "+ex);
             }
