@@ -129,6 +129,7 @@ public class MainActivity extends ActionBarActivity {
             started = 0;
             if (gdt!=null)
                 gdt.cancel(true);
+                showToast(getString(R.string.cancelled));
         } else {
             started = 1;
         }

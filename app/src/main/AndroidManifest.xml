@@ -9,8 +9,7 @@
 
     <application
         android:allowBackup="true"
-        android:debuggable="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <meta-data
@@ -49,14 +48,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.samux.samu.dsync.gDrive2" />
-        </activity>
-        <activity
-            android:name=".driveList"
-            android:label="@string/title_activity_drive_list"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.samux.samu.dsync.MainActivity" />
         </activity>
     </application>
 

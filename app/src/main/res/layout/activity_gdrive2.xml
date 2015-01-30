@@ -5,6 +5,15 @@
     android:orientation="vertical"
     android:padding="3dp" >
 
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/SelectDrive"
+        android:id="@+id/SelectDriveText"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

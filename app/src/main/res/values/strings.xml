@@ -2,7 +2,15 @@
 <resources>
 
     <string name="app_name">Dsync</string>
-    <string name="intro_text">blablabla!</string>
+    <string name="intro_text">\n\n
+    Welcome to Dsync,\n a program to copy folder from Google Drive and save them on
+    a local folder of your android.\n\n
+    To start select the google account you want to connect to.\n
+    At the end of the wizard you can always reconfigure it by pressing Edit.\n
+    </string>
+    <string name="SelectDrive">Click on the desired folder and then click on Select</string>
+    <string name="MainText">Click edit to configure again or press Start to synchronize folders</string>
+    <string name="LocalFolderText">Click edit to configure again or press Start to synchronize folders</string>
     <string name="select_text">Select folder</string>
     <string name="hello_world">hw</string>
     <string name="select_account_button">Select Account</string>
@@ -23,5 +31,6 @@
     <string name="title_activity_drive_list">driveList</string>
     <string name="writerror">Error while writing file: </string>
     <string name="Alldone">All Done!</string>
+    <string name="cancelled">Cancelled by User</string>
 
 </resources>
