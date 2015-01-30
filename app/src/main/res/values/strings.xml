@@ -29,7 +29,7 @@
     <string name="title_activity_gDrive2">Google Drive</string>
     <string name="title_activity_filebrowser">Local Folders</string>
     <string name="title_activity_drive_list">driveList</string>
-    <string name="writerror">Error while writing file: </string>
+    <string name="writerror">Error while writing file</string>
     <string name="Alldone">All Done!</string>
     <string name="cancelled">Cancelled by User</string>
 

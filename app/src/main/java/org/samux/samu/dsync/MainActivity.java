@@ -235,14 +235,23 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(Boolean result) {
-            if(localn == 0){
-                procfile="";
-                publishProgress((long)0);
+            if (localn == 0) {
+                procfile = "";
+                publishProgress((long) 0);
                 ((Button) findViewById(R.id.actionbutton)).setText(getString(R.string.start));
                 showToast(getString(R.string.Alldone));
-                started=0;
+                started = 0;
             }
         }
+
+        @Override
+        protected void onCancelled(Boolean results){
+            if (localn == 1){
+                showToast(getString(R.string.writerror));
+                started = 0;
+            }
+        }
+
         @Override
         protected void onProgressUpdate(Long... progress) {
             mProgress.setProgress(progress[0].intValue());
@@ -266,8 +275,8 @@ public class MainActivity extends ActionBarActivity {
                 is.close();
                 os.close();
             } catch (IOException e){
-                Log.e(TAG,"stop");
-                showToast(getString(R.string.writerror) + e );
+                Log.e(TAG, "stop" + e);
+                localn=1;
                 this.cancel(true);
             } catch (Exception ex) {
                 Log.e(TAG,"CS "+ex);

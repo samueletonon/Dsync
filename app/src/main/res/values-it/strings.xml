@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Dsync</string>
+    <string name="intro_text">\n\n
+    Benvenuti in Dsync,\n un programma per copiare cartelle da Google Drive e salvarle
+    in una cartella locale del proprio Android.\n\n
+    Per iniziare selezionare l\'account google da usare.\n
+    La procedura di configurazione è riattivabile premendo il tasto RiConfigura.\n
+    </string>
+    <string name="SelectDrive">Clicca la cartella desiderata e clicca su Seleziona per confermare.</string>
+    <string name="MainText">Clicca RiConfigura per riconfigurare o premi Avvia per sincronizzare le cartelle.</string>
+    <string name="LocalFolderText">Clicca Riconfigura per riconfigurare o premi Avvia per sincronizzare le cartelle.</string>
+    <string name="select_text">Seleziona la cartella</string>
+    <string name="hello_world">Ciao Mondo</string>
+    <string name="select_account_button">Seleziona l\'account</string>
+    <string name="action_settings">Impostazioni</string>
+    <string name="select">Seleziona</string>
+    <string name="curdir">Scegli la cartella: </string>
+    <string name="up">Cartella precedente</string>
+    <string name="empty">La Cartella è vuota</string>
+    <string name="cancel">Cancella</string>
+    <string name="stop">Ferma</string>
+    <string name="start">Avvia</string>
+    <string name="edit">RiConfigura</string>
+    <string name="processed">0 / 0  Elementi processati</string>
+    <string name="processedV">Elementi processati</string>
+    <string name="title_activity_gDrive1">Procedura Guidata</string>
+    <string name="title_activity_gDrive2">Area Google Drive</string>
+    <string name="title_activity_filebrowser">Area Cartelle Locali</string>
+    <string name="title_activity_drive_list">Elenco Drive</string>
+    <string name="writerror">Errore di scrittura file</string>
+    <string name="Alldone">Fatto tutto!</string>
+    <string name="cancelled">Operazione Cancellata dall\'utente</string>
+
+</resources>
