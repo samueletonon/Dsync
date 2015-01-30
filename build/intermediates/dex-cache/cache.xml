@@ -65,18 +65,18 @@
         <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/classes-78c001c5441e911fb4e0d6d00f63923f70abc49b.jar" />
     </item>
     <item
-        jar="/home/samu/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/1.3.9/40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf/jsr305-1.3.9.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/jsr305-1.3.9-19283b1f988f7876594ff02662402235be03d892.jar" />
-    </item>
-    <item
         jar="/home/samu/.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client/1.19.1/b09ccfa9ac71b52b60ba4c1ab630150685d58c32/google-api-client-1.19.1.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="b09ccfa9ac71b52b60ba4c1ab630150685d58c32">
         <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/google-api-client-1.19.1-29f33cb812cd17bb14d545683a0b9225795d6b91.jar" />
+    </item>
+    <item
+        jar="/home/samu/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/1.3.9/40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf/jsr305-1.3.9.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf">
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/jsr305-1.3.9-19283b1f988f7876594ff02662402235be03d892.jar" />
     </item>
     <item
         jar="/home/samu/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client/1.19.0/cdca49ad0977c040f603478aa2e16b2775c8fec6/google-http-client-1.19.0.jar"
