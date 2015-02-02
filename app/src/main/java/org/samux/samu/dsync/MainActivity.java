@@ -188,6 +188,8 @@ public class MainActivity extends ActionBarActivity {
         protected Boolean doInBackground(Void... params) {
             GFile = retrieveAllFiles(iddrive,lpath);
             for (ItemFile sf : GFile) {
+                if (this.isCancelled())
+                    break;
                 if (sf.dFile.getMimeType().matches("application/vnd.google-apps.folder")) {
                     File theDir = new File(sf.file);
                     if (!theDir.exists()) {
@@ -210,7 +212,7 @@ public class MainActivity extends ActionBarActivity {
                             Log.v(TAG,lmd5 + ":"+drivemd5);
                         }
                     }
-                    if (!isCancelled() && sf.dFile.getDownloadUrl() != null
+                    if (!this.isCancelled() && sf.dFile.getDownloadUrl() != null
                             && sf.dFile.getDownloadUrl().length() > 0 && !same) {
                         try {
                             procfile = "Downloading file: " + sf.dFile.getTitle();
@@ -276,8 +278,11 @@ public class MainActivity extends ActionBarActivity {
                 os.close();
             } catch (IOException e){
                 Log.e(TAG, "stop" + e);
-                localn=1;
-                this.cancel(true);
+                if (!this.isCancelled()) {
+                    localn = 1;
+                }else {
+                    this.cancel(true);
+                }
             } catch (Exception ex) {
                 Log.e(TAG,"CS "+ex);
             }

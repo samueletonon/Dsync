@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 
-
 android {
     signingConfigs {
         config {
@@ -64,5 +63,3 @@ dependencies {
         exclude module: 'httpclient'
     }
 }
-
-
