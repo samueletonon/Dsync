@@ -51,42 +51,10 @@
 
     </LinearLayout>
 
-    <Space
-        android:layout_width="20dp"
-        android:layout_height="30dp" />
-
-    <TextView
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/processed"
-        android:id="@+id/processedText"
-        android:layout_gravity="center_horizontal" />
-
-    <Space
-        android:layout_width="20dp"
-        android:layout_height="30dp" />
-
-    <TextView
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/processedfileText"
-        android:layout_gravity="center_horizontal" />
-
-
-    <Space
-        android:layout_width="20dp"
-        android:layout_height="80dp" />
-
-    <ProgressBar
-        style="@android:style/Widget.ProgressBar.Horizontal"
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp" />
+        android:layout_height="match_parent"/>
 
 
 </LinearLayout>
