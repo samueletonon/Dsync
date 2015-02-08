@@ -1,36 +1,48 @@
 package org.samux.samu.dsync;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity implements NonUIFragment.TaskCallbacks {
     public static final String PREF = "org.samux.samu.dsync.preffile";
     public static final String APPLICATION_NAME = "Dsync";
+    public static ProgressBar mProgress;
+
 
     static final int GET_DRIVE_ACCOUNT = 1;
 
     private NonUIFragment fragment;
     private static final String TAG = "Mact";
+    private String procfile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mProgress = (ProgressBar) findViewById(R.id.progressBar);
+        mProgress.setIndeterminate(false);
+        mProgress.setMax(100);
+
+        FragmentManager fm = getFragmentManager();
 
         if(savedInstanceState ==null){
             fragment = new NonUIFragment();
-            getSupportFragmentManager().beginTransaction().add(fragment, "TaskFragment").commit();
+            fm.beginTransaction().add(fragment, "TaskFragment").commit();
         } else {
-            fragment = (NonUIFragment) getSupportFragmentManager().findFragmentByTag("TaskFragment");
+            fragment = (NonUIFragment) fm.findFragmentByTag("TaskFragment");
         }
         SharedPreferences Pref = getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
         if (! Pref.contains("localfolder")) {
@@ -38,10 +50,6 @@ public class MainActivity extends ActionBarActivity {
         } else {
             mainAction();
         }
-    }
-
-    private void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -57,6 +65,35 @@ public class MainActivity extends ActionBarActivity {
                 }
                 break;
         }
+    }
+
+
+    @Override
+    public void onPreExecute(){
+        mProgress.setProgress(0);
+        mProgress.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onProgressUpdate(int progress, int processed, int total, String procfile) {
+        mProgress.setProgress(progress);
+        String text = processed + "/" + total + "  " + getString(R.string.processedV);
+        ((TextView) findViewById(R.id.processedfileText)).setText(procfile);
+        ((TextView) findViewById(R.id.processedText)).setText(text);
+    }
+
+    @Override
+    public void onCancelled() {
+        showToast(getString(R.string.writerror));
+        fragment.started = 0;
+    }
+
+    @Override
+    public void onPostExecute() {
+        //publishProgress((long) 0);
+        ((Button) findViewById(R.id.actionbutton)).setText(getString(R.string.start));
+        showToast(getString(R.string.Alldone));
+        fragment.started=0;
     }
 
     private void launch_setup() {
@@ -87,4 +124,9 @@ public class MainActivity extends ActionBarActivity {
             ( (Button) this.findViewById(R.id.actionbutton)).setText(getString(R.string.start));
         }
     }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
 }

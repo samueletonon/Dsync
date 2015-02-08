@@ -3,7 +3,6 @@ package org.samux.samu.dsync;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +21,7 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
+import org.samux.samu.dsync.NonUIFragment.TaskCallbacks;
 
 /**
  * Created by samu on 08/02/15.
@@ -29,26 +29,26 @@ import java.util.List;
 
 public class GetDAT extends AsyncTask<Void,Long,Boolean> {
     private static final String TAG = "GDAT";
-    private Activity activity;
+    private TaskCallbacks mCallbacks;
     private Drive service;
     private String iddrive;
     private String lpath;
     private int localn;
     List<ItemFile> GFile;
     private String procfile;
-    private NonUIFragment parent;
+    public int processed, total;
 
 
 
-    public GetDAT(Activity activity, NonUIFragment parent){
-        this.activity = activity;
-        this.parent = parent;
+    public GetDAT(Activity activity){
+        this.mCallbacks = (TaskCallbacks) activity;
     }
 
     @Override
     protected void onPreExecute() {
-        parent.mProgress.setProgress(0);
-        parent.mProgress.setVisibility(View.VISIBLE);
+        if (mCallbacks != null) {
+            this.mCallbacks.onPreExecute();
+        }
         super.onPreExecute();
     }
 
@@ -97,7 +97,7 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
                     }
                 }
             }
-            parent.processed++;
+            processed++;
             publishProgress((long)0);
         }
         return true;
@@ -105,41 +105,35 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
 
     @Override
     protected void onPostExecute(Boolean result) {
-        if (localn == 0) {
-            procfile = "";
-            publishProgress((long) 0);
-            ((Button) this.activity.findViewById(R.id.actionbutton)).setText(parent.getString(R.string.start));
-            showToast(parent.getString(R.string.Alldone));
-            parent.started = 0;
+        if(mCallbacks != null && localn == 0){
+            mCallbacks.onPostExecute();
         }
     }
 
     @Override
     protected void onCancelled(Boolean results){
-        if (localn == 1){
-            showToast(parent.getString(R.string.writerror));
-            parent.started = 0;
+        if (localn == 1 && mCallbacks != null) {
+            mCallbacks.onCancelled();
         }
     }
 
     @Override
     protected void onProgressUpdate(Long... progress) {
-        parent.mProgress.setProgress(progress[0].intValue());
-        String text = parent.processed + "/" + parent.total + "  " + parent.getString(R.string.processedV);
-        ((TextView) this.activity.findViewById(R.id.processedfileText)).setText(procfile);
-        ((TextView) this.activity.findViewById(R.id.processedText)).setText(text);
+        if(mCallbacks != null){
+            mCallbacks.onProgressUpdate(progress[0].intValue(),processed, total, procfile);
+        }
     }
 
     private void showToast(String message) {
-        Toast.makeText(this.activity, message, Toast.LENGTH_LONG).show();
+        Toast.makeText((Activity) mCallbacks, message, Toast.LENGTH_LONG).show();
     }
 
     public void onAttach(Activity activity){
-        this.activity = activity;
+        this.mCallbacks = (TaskCallbacks) activity;
     }
 
     public void onDetach(){
-        this.activity = null;
+        this.mCallbacks = null;
     }
 
 
@@ -169,7 +163,7 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
                         Iresult.addAll(retrieveAllFiles(f.getId(),Lpath + "/" + f.getTitle()));
                     }
                     Iresult.add(new ItemFile(Lpath + "/" + f.getTitle(), 0, true, f.getId(),f));
-                    parent.total++;
+                    total++;
                 }
                 request.setPageToken(files.getNextPageToken());
             } catch (IOException e) {
