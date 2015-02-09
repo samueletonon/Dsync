@@ -3,14 +3,14 @@ package org.samux.samu.dsync;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.FileList;
+
+import org.samux.samu.dsync.NonUIFragment.TaskCallbacks;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,7 +21,6 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
-import org.samux.samu.dsync.NonUIFragment.TaskCallbacks;
 
 /**
  * Created by samu on 08/02/15.
@@ -42,6 +41,7 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
 
     public GetDAT(Activity activity){
         this.mCallbacks = (TaskCallbacks) activity;
+
     }
 
     @Override

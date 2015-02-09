@@ -107,7 +107,8 @@ public class MainActivity extends Activity implements NonUIFragment.TaskCallback
         if (fragment.started == 0) {
             fragment.beginTask();
         }else {
-            //TODO stop activity
+            //stop activity
+            fragment.cancelTask();
             showToast(getString(R.string.cancelled));
         }
         mainAction();

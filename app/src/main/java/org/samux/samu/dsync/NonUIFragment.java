@@ -5,9 +5,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -33,7 +30,6 @@ public class NonUIFragment extends Fragment {
     private String driveId;
     public static Drive service;
     public int started=0;
-    public int processed, total;
 
     static interface TaskCallbacks {
         void onPreExecute();
@@ -42,9 +38,7 @@ public class NonUIFragment extends Fragment {
         void onPostExecute();
     }
 
-
     public NonUIFragment(){
-
     }
 
     public void onAttach(Activity activity) {
@@ -66,15 +60,7 @@ public class NonUIFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setRetainInstance(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.activity_main, container, false);
     }
 
     public void beginTask(){
@@ -82,11 +68,10 @@ public class NonUIFragment extends Fragment {
         localpath = Pref.getString("localfolder", null);
         aName = Pref.getString("account", null);
         driveId = Pref.getString("driveid", null);
-        processed=0;
-        total=0;
-        //activity.mProgress.setProgress(0);
-        ( (TextView) this.activity.findViewById(R.id.processedText)).setText(R.string.processed);
-        ( (Button) this.activity.findViewById(R.id.actionbutton)).setText(getString(R.string.stop));
+        this.started=1;
+
+        ((TextView) this.activity.findViewById(R.id.processedText)).setText(R.string.processed);
+        ((Button) this.activity.findViewById(R.id.actionbutton)).setText(getString(R.string.stop));
 
         GoogleAccountCredential credential = GoogleAccountCredential.usingOAuth2(this.activity, Arrays.asList(DriveScopes.DRIVE));
         credential.setSelectedAccountName(aName);
@@ -95,5 +80,11 @@ public class NonUIFragment extends Fragment {
         gd = new GetDAT(this.activity);
         gd.fromroot(service, driveId, localpath,0);
         gd.execute();
+    }
+
+    public void cancelTask(){
+        if (gd!=null){
+            gd.cancel(true);
+        }
     }
 }
