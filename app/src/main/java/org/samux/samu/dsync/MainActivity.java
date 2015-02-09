@@ -39,7 +39,11 @@ public class MainActivity extends Activity implements NonUIFragment.TaskCallback
             fragment = new NonUIFragment();
             fm.beginTransaction().add(fragment, "TaskFragment").commit();
         } else {
+
             fragment = (NonUIFragment) fm.findFragmentByTag("TaskFragment");
+        }
+        if(fragment.started==1){
+            ((Button) findViewById(R.id.actionbutton)).setText(getString(R.string.stop));
         }
         SharedPreferences Pref = getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
         if (! Pref.contains("localfolder")) {
@@ -84,10 +88,11 @@ public class MainActivity extends Activity implements NonUIFragment.TaskCallback
 
     @Override
     public void onPostExecute() {
-        mProgress.setProgress(0);
-        ((Button) findViewById(R.id.actionbutton)).setText(getString(R.string.start));
-        showToast(getString(R.string.Alldone));
-        fragment.started=0;
+        if (fragment.started==0) {
+            mProgress.setProgress(0);
+            ((Button) findViewById(R.id.actionbutton)).setText(getString(R.string.start));
+            showToast(getString(R.string.Alldone));
+        }
     }
 
     private void launch_setup() {

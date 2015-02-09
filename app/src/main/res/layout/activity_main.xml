@@ -3,7 +3,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:padding="3dp" >
+        android:padding="3dp"
+    android:weightSum="1">
 
     <TextView
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -12,7 +13,10 @@
         android:text="@string/MainText"
         android:id="@+id/MainText"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +25,9 @@
         android:padding="0dp"
         android:gravity="bottom"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
 
         <Button
             android:id="@+id/actionbutton"
@@ -51,42 +57,41 @@
 
     </LinearLayout>
 
-    <Space
-        android:layout_width="20dp"
-        android:layout_height="30dp" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="bottom">
 
-    <TextView
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/processed"
-        android:id="@+id/processedText"
-        android:layout_gravity="center_horizontal" />
+        <TextView
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/processed"
+            android:id="@+id/processedText"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1" />
 
-    <Space
-        android:layout_width="20dp"
-        android:layout_height="30dp" />
+        <TextView
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/processedfileText"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1" />
 
-    <TextView
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/processedfileText"
-        android:layout_gravity="center_horizontal" />
-
-
-    <Space
-        android:layout_width="20dp"
-        android:layout_height="80dp" />
-
-    <ProgressBar
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp" />
+        <ProgressBar
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_margin="15dp" />
+    </LinearLayout>
 
 
 </LinearLayout>
