@@ -47,7 +47,6 @@ public class MainActivity extends Activity implements NonUIFragment.TaskCallback
         }
         SharedPreferences Pref = getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
         if (! Pref.contains("localfolder")) {
-            launch_setup();
         }
     }
 

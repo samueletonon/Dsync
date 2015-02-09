@@ -32,5 +32,7 @@
     <string name="writerror">Errore di scrittura file</string>
     <string name="Alldone">Fatto tutto!</string>
     <string name="cancelled">Operazione Cancellata dall\'utente</string>
+    <string name="fromf">Dalla cartella Drive: </string>
+    <string name="tof">Alla cartella Locale:  </string>
 
 </resources>
