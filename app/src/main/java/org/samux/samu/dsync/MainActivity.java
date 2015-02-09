@@ -24,7 +24,6 @@ public class MainActivity extends Activity implements NonUIFragment.TaskCallback
 
     private NonUIFragment fragment;
     private static final String TAG = "Mact";
-    private String procfile;
 
 
     @Override
@@ -105,10 +104,14 @@ public class MainActivity extends Activity implements NonUIFragment.TaskCallback
 
     public void onStopStart(View view){
         if (fragment.started == 0) {
+            ((TextView) findViewById(R.id.processedText)).setText(R.string.processed);
+            ((Button) findViewById(R.id.actionbutton)).setText(getString(R.string.stop));
+
             fragment.beginTask();
         }else {
             //stop activity
             fragment.cancelTask();
+            ((Button) findViewById(R.id.actionbutton)).setText(getString(R.string.start));
             showToast(getString(R.string.cancelled));
         }
         mainAction();

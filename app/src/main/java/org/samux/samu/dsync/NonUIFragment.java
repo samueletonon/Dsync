@@ -5,8 +5,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -69,9 +67,6 @@ public class NonUIFragment extends Fragment {
         aName = Pref.getString("account", null);
         driveId = Pref.getString("driveid", null);
         this.started=1;
-
-        ((TextView) this.activity.findViewById(R.id.processedText)).setText(R.string.processed);
-        ((Button) this.activity.findViewById(R.id.actionbutton)).setText(getString(R.string.stop));
 
         GoogleAccountCredential credential = GoogleAccountCredential.usingOAuth2(this.activity, Arrays.asList(DriveScopes.DRIVE));
         credential.setSelectedAccountName(aName);
