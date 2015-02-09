@@ -15,7 +15,9 @@ import com.google.api.services.drive.DriveScopes;
 import java.util.Arrays;
 
 /**
- * Created by samu on 08/02/15.
+ * Created by Samuele Giovanni Tonon
+ * <samu@linuxaxylum.net>
+ * on 08/02/15.
  */
 public class NonUIFragment extends Fragment {
 
@@ -79,6 +81,7 @@ public class NonUIFragment extends Fragment {
 
     public void cancelTask(){
         if (gd!=null){
+            this.started=0;
             gd.cancel(true);
         }
     }

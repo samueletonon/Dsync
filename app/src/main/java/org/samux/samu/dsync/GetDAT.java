@@ -3,7 +3,6 @@ package org.samux.samu.dsync;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpResponse;
@@ -23,9 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by samu on 08/02/15.
+ * Created by Samuele Giovanni Tonon
+ * <samu@linuxaxylum.net>
+ * on 08/02/15.
  */
-
 public class GetDAT extends AsyncTask<Void,Long,Boolean> {
     private static final String TAG = "GDAT";
     private TaskCallbacks mCallbacks;
@@ -36,8 +36,6 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
     List<ItemFile> GFile;
     private String procfile;
     public int processed, total;
-
-
 
     public GetDAT(Activity activity){
         this.mCallbacks = (TaskCallbacks) activity;
@@ -124,10 +122,6 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
         }
     }
 
-    private void showToast(String message) {
-        Toast.makeText((Activity) mCallbacks, message, Toast.LENGTH_LONG).show();
-    }
-
     public void onAttach(Activity activity){
         this.mCallbacks = (TaskCallbacks) activity;
     }
@@ -135,7 +129,6 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
     public void onDetach(){
         this.mCallbacks = null;
     }
-
 
     public void fromroot(Drive service, String driveid, String l_path, int localint){
         this.service = service;
@@ -189,7 +182,7 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
             is.close();
             os.close();
         } catch (IOException e){
-            Log.e(TAG, "stop" + e);
+            Log.e(TAG, "stop " + e);
             if (!this.isCancelled()) {
                 localn = 1;
             }else {

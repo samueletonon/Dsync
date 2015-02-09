@@ -19,12 +19,10 @@ public class MainActivity extends Activity implements NonUIFragment.TaskCallback
     public static final String APPLICATION_NAME = "Dsync";
     public static ProgressBar mProgress;
 
-
     static final int GET_DRIVE_ACCOUNT = 1;
 
     private NonUIFragment fragment;
     private static final String TAG = "Mact";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +44,6 @@ public class MainActivity extends Activity implements NonUIFragment.TaskCallback
         SharedPreferences Pref = getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
         if (! Pref.contains("localfolder")) {
             launch_setup();
-        } else {
-            mainAction();
         }
     }
 
@@ -57,7 +53,7 @@ public class MainActivity extends Activity implements NonUIFragment.TaskCallback
             case GET_DRIVE_ACCOUNT:
                 if (resultCode == RESULT_OK) {
                     Log.d(TAG, "ok");
-                    mainAction();
+                    //mainAction();
                 } else {
                     Log.d(TAG, "ahio "+ resultCode);
                     launch_setup();
@@ -65,7 +61,6 @@ public class MainActivity extends Activity implements NonUIFragment.TaskCallback
                 break;
         }
     }
-
 
     @Override
     public void onPreExecute(){
@@ -89,45 +84,36 @@ public class MainActivity extends Activity implements NonUIFragment.TaskCallback
 
     @Override
     public void onPostExecute() {
-        //publishProgress((long) 0);
+        mProgress.setProgress(0);
         ((Button) findViewById(R.id.actionbutton)).setText(getString(R.string.start));
         showToast(getString(R.string.Alldone));
         fragment.started=0;
     }
 
     private void launch_setup() {
-        //launch the wizard
+        //this is to launch a wizard
         Intent intent = new Intent(this, gDrive1.class);
         startActivityForResult(intent, GET_DRIVE_ACCOUNT);
-        mainAction();
     }
 
     public void onStopStart(View view){
         if (fragment.started == 0) {
+            Log.d(TAG,"stop1 button");
             ((TextView) findViewById(R.id.processedText)).setText(R.string.processed);
             ((Button) findViewById(R.id.actionbutton)).setText(getString(R.string.stop));
-
             fragment.beginTask();
         }else {
-            //stop activity
             fragment.cancelTask();
+            Log.d(TAG,"start2 button");
             ((Button) findViewById(R.id.actionbutton)).setText(getString(R.string.start));
             showToast(getString(R.string.cancelled));
         }
-        mainAction();
     }
 
     public void edit_config(View view){
         launch_setup();
     }
 
-    private void mainAction(){
-        if (fragment.started ==1) {
-            ((Button) this.findViewById(R.id.actionbutton)).setText(getString(R.string.stop));
-        } else {
-            ( (Button) this.findViewById(R.id.actionbutton)).setText(getString(R.string.start));
-        }
-    }
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
