@@ -60,22 +60,6 @@
         android:gravity="bottom">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:id="@+id/textsrc"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center_horizontal" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:id="@+id/textdst"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center_horizontal" />
-
-        <TextView
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
