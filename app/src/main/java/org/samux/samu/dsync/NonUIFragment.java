@@ -22,6 +22,8 @@ import java.util.Arrays;
 public class NonUIFragment extends Fragment {
 
     public static final String APPLICATION_NAME = "Dsync";
+    private static final String TAG = "NUF";
+
 
     private Activity activity;
     private  GetDAT gd=null;

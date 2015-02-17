@@ -62,7 +62,7 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
                     try {
                         boolean v = theDir.mkdir();
                     } catch (SecurityException se) {
-                        Log.e(TAG, "");
+                        Log.e(TAG, "mkdir"+Log.getStackTraceString(se));
                     }
                 }
             } else {
@@ -90,8 +90,7 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
                         CopyStream(sf.dFile.getFileSize(), resp.getContent(), os);
                         os.close();
                     } catch (IOException e) {
-                        e.printStackTrace();
-                        Log.e(TAG, "Error");
+                        Log.e(TAG, "Ret: " + Log.getStackTraceString(e));
                     }
                 }
             }
@@ -150,7 +149,6 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
         do {
             try {
                 FileList files = request.execute();
-                //result.addAll(files.getItems());
                 for (com.google.api.services.drive.model.File f: files.getItems()){
                     if (f.getMimeType().matches("application/vnd.google-apps.folder")){
                         Iresult.addAll(retrieveAllFiles(f.getId(),Lpath + "/" + f.getTitle()));
@@ -160,7 +158,7 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
                 }
                 request.setPageToken(files.getNextPageToken());
             } catch (IOException e) {
-                Log.e(TAG, "", e);
+                Log.e(TAG, "Ret All Files", e);
                 request.setPageToken(null);
             }
         } while (request.getPageToken() != null && request.getPageToken().length() > 0);
@@ -214,7 +212,7 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
                 try {
                     inputStream.close();
                 } catch (Exception e) {
-                    Log.e(TAG,"Error");
+                    Log.e(TAG,"ftoMD5:" +e);
                 }
             }
         }

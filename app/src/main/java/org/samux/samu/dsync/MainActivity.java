@@ -46,7 +46,8 @@ public class MainActivity extends Activity implements NonUIFragment.TaskCallback
             ((Button) findViewById(R.id.actionbutton)).setText(getString(R.string.stop));
         }
         SharedPreferences Pref = getSharedPreferences(MainActivity.PREF, Context.MODE_PRIVATE);
-        if (! Pref.contains("localfolder")) {
+        if (!(Pref.contains("localfolder") && Pref.contains("account") && Pref.contains("driveid"))){
+            launch_setup();
         }
     }
 
