@@ -6,119 +6,119 @@
         jumboMode="false"
         revision="21.1.1"
         sha1="81dbf9795d387d5e80e55346582d5f2fb81a42eb">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/release/google-http-client-jackson2-1.19.0-1ec68a84aaa2c7fad987fde8596b171ba3642ca3.jar" />
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/google-http-client-jackson2-1.19.0-1ec68a84aaa2c7fad987fde8596b171ba3642ca3.jar" />
     </item>
     <item
         jar="/home/samu/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.1.3/f6c3aed1cdfa21b5c1737c915186ea93a95a58bd/jackson-core-2.1.3.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="f6c3aed1cdfa21b5c1737c915186ea93a95a58bd">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/release/jackson-core-2.1.3-34de078b91861e1d9ded15461e0b9344b28e4b55.jar" />
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/jackson-core-2.1.3-34de078b91861e1d9ded15461e0b9344b28e4b55.jar" />
     </item>
     <item
         jar="/home/samu/.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client-android/1.19.1/551253c681cfd8ab4d988462cf672abcc6b31b89/google-api-client-android-1.19.1.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="551253c681cfd8ab4d988462cf672abcc6b31b89">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/release/google-api-client-android-1.19.1-ab68a638225bb98178caffcefcfa926e90407fd8.jar" />
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/google-api-client-android-1.19.1-ab68a638225bb98178caffcefcfa926e90407fd8.jar" />
     </item>
     <item
         jar="/public/AndroidStudioProjects/Dsync/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/release/classes-32ec08be237957d8eb6dd4caa0f05328ec0a5a16.jar" />
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/classes-32ec08be237957d8eb6dd4caa0f05328ec0a5a16.jar" />
     </item>
     <item
         jar="/home/samu/.gradle/caches/modules-2/files-2.1/com.google.oauth-client/google-oauth-client/1.19.0/d473a8962e14a707a3716637e4898bb2dd9643f2/google-oauth-client-1.19.0.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="d473a8962e14a707a3716637e4898bb2dd9643f2">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/release/google-oauth-client-1.19.0-f5c42e12beefa477abc222542076922bb78ca1ec.jar" />
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/google-oauth-client-1.19.0-f5c42e12beefa477abc222542076922bb78ca1ec.jar" />
     </item>
     <item
         jar="/public/AndroidStudioProjects/Dsync/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/release/internal_impl-21.0.3-1a2dff68610e4c11e48598ef3be60788a8e80340.jar" />
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-1a2dff68610e4c11e48598ef3be60788a8e80340.jar" />
     </item>
     <item
         jar="/home/samu/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-android/1.19.0/e3f11020c2c812112803d252d1392872d3f619c8/google-http-client-android-1.19.0.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="e3f11020c2c812112803d252d1392872d3f619c8">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/release/google-http-client-android-1.19.0-dcec2796fb284336dde8d668fcdba9511969fcf6.jar" />
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/google-http-client-android-1.19.0-dcec2796fb284336dde8d668fcdba9511969fcf6.jar" />
     </item>
     <item
         jar="/home/samu/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.1/2e66da15851f9f5b5079228f856c2f090ba98c38/gson-2.1.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="2e66da15851f9f5b5079228f856c2f090ba98c38">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/release/gson-2.1-14362cc5db521fbb6d54a316831eb64bf1cd2470.jar" />
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/gson-2.1-14362cc5db521fbb6d54a316831eb64bf1cd2470.jar" />
     </item>
     <item
         jar="/public/AndroidStudioProjects/Dsync/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/release/classes-78c001c5441e911fb4e0d6d00f63923f70abc49b.jar" />
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/classes-78c001c5441e911fb4e0d6d00f63923f70abc49b.jar" />
     </item>
     <item
         jar="/home/samu/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/1.3.9/40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf/jsr305-1.3.9.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/release/jsr305-1.3.9-19283b1f988f7876594ff02662402235be03d892.jar" />
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/jsr305-1.3.9-19283b1f988f7876594ff02662402235be03d892.jar" />
     </item>
     <item
         jar="/home/samu/.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client/1.19.1/b09ccfa9ac71b52b60ba4c1ab630150685d58c32/google-api-client-1.19.1.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="b09ccfa9ac71b52b60ba4c1ab630150685d58c32">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/release/google-api-client-1.19.1-29f33cb812cd17bb14d545683a0b9225795d6b91.jar" />
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/google-api-client-1.19.1-29f33cb812cd17bb14d545683a0b9225795d6b91.jar" />
     </item>
     <item
         jar="/home/samu/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client/1.19.0/cdca49ad0977c040f603478aa2e16b2775c8fec6/google-http-client-1.19.0.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="cdca49ad0977c040f603478aa2e16b2775c8fec6">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/release/google-http-client-1.19.0-ce1fa004e673579218681aace4250688e3d07ef4.jar" />
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/google-http-client-1.19.0-ce1fa004e673579218681aace4250688e3d07ef4.jar" />
     </item>
     <item
         jar="/home/samu/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-drive/v2-rev105-1.17.0-rc/7d1d979d0b0baa67cd00495317ccf46c050c1c25/google-api-services-drive-v2-rev105-1.17.0-rc.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="7d1d979d0b0baa67cd00495317ccf46c050c1c25">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/release/google-api-services-drive-v2-rev105-1.17.0-rc-d57208adcbf8928e52490e8ec1782f340f026cc2.jar" />
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/google-api-services-drive-v2-rev105-1.17.0-rc-d57208adcbf8928e52490e8ec1782f340f026cc2.jar" />
     </item>
     <item
         jar="/home/samu/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-gson/1.19.0/b3cdefb990d5212bb2a130525b20e2c44aeffc4c/google-http-client-gson-1.19.0.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="b3cdefb990d5212bb2a130525b20e2c44aeffc4c">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/release/google-http-client-gson-1.19.0-b527a9d6cb68012a01d67ec78865da58c359c51e.jar" />
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/google-http-client-gson-1.19.0-b527a9d6cb68012a01d67ec78865da58c359c51e.jar" />
     </item>
     <item
         jar="/home/samu/.gradle/caches/modules-2/files-2.1/com.google.guava/guava-jdk5/13.0/381ae6c8add7c98e9bcddb1e0b898400cd6fc3f7/guava-jdk5-13.0.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="381ae6c8add7c98e9bcddb1e0b898400cd6fc3f7">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/release/guava-jdk5-13.0-206f68f335b48eb1043f4ad3b515f10c1407f9ac.jar" />
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/guava-jdk5-13.0-206f68f335b48eb1043f4ad3b515f10c1407f9ac.jar" />
     </item>
     <item
         jar="/public/AndroidStudioProjects/Dsync/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/classes.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/release/classes-b86324b58e8cd2ba19cc351fe89a55bf065065cf.jar" />
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/classes-b86324b58e8cd2ba19cc351fe89a55bf065065cf.jar" />
     </item>
     <item
         jar="/home/samu/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/release/support-annotations-21.0.3-e0740bcad8c0c1b2402a830ed93da6f2ca1803ab.jar" />
+        <dex dex="/public/AndroidStudioProjects/Dsync/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-e0740bcad8c0c1b2402a830ed93da6f2ca1803ab.jar" />
     </item>
 
 </items>

@@ -69,13 +69,21 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
                 //Main Routine to download file
                 boolean same=false;
                 File lf = new File(sf.file);
-                if (lf.exists() && !lf.isDirectory()) {
-                    String drivemd5 = sf.dFile.getMd5Checksum();
-                    String lmd5 = fileToMD5(sf.file);
-                    if (lmd5.equals(drivemd5)) {
-                        same=true;
+                if (!lf.isDirectory()) {
+                    if (lf.exists()) {
+                        String drivemd5 = sf.dFile.getMd5Checksum();
+                        String lmd5 = fileToMD5(sf.file);
+                        if (lmd5.equals(drivemd5)) {
+                            same = true;
+                        } else {
+                            Log.v(TAG, lmd5 + ":" + drivemd5);
+                        }
                     } else {
-                        Log.v(TAG,lmd5 + ":"+drivemd5);
+                        try {
+                            boolean v = lf.createNewFile();
+                        } catch (IOException ex){
+                            Log.e(TAG, "Create: " + Log.getStackTraceString(ex));
+                        }
                     }
                 }
                 if (!this.isCancelled() && sf.dFile.getDownloadUrl() != null
@@ -86,9 +94,7 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
                         HttpResponse resp = service.getRequestFactory()
                                 .buildGetRequest(new GenericUrl(sf.dFile.getDownloadUrl()))
                                 .execute();
-                        OutputStream os = new FileOutputStream(lf);
-                        CopyStream(sf.dFile.getFileSize(), resp.getContent(), os);
-                        os.close();
+                        CopyStream(sf.dFile.getFileSize(), resp.getContent(), lf);
                     } catch (IOException e) {
                         Log.e(TAG, "Ret: " + Log.getStackTraceString(e));
                     }
@@ -165,29 +171,29 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
         return Iresult;
     }
 
-    public void CopyStream(long size, InputStream is, OutputStream os) {
+    public void CopyStream(long size, InputStream is, File lf) {
         final int buffer_size = 4096;
         byte[] bytes = new byte[buffer_size];
         try {
             int count,prog=0;
+            OutputStream os = new FileOutputStream(lf);
             while ((count = is.read(bytes)) != -1) {
                 os.write(bytes, 0, count); //write buffer
                 prog = prog + count;
                 publishProgress(((long) prog) * 100 / size);
             }
-
             os.flush();
             is.close();
             os.close();
         } catch (IOException e){
-            Log.e(TAG, "stop " + e);
+            Log.e(TAG, "stop "+ Log.getStackTraceString(e));
             if (!this.isCancelled()) {
                 localn = 1;
             }else {
                 this.cancel(true);
             }
         } catch (Exception ex) {
-            Log.e(TAG,"CS "+ex);
+            Log.e(TAG,"CS "+ Log.getStackTraceString(ex));
         }
     }
 
