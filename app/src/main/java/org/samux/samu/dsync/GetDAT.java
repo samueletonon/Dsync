@@ -110,6 +110,9 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
             processed++;
             publishProgress((long)0);
         }
+        procfile="";
+        publishProgress((long)0);
+        this.localn=0;
         return true;
     }
 

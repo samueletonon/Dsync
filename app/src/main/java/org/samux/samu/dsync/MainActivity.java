@@ -86,11 +86,11 @@ public class MainActivity extends Activity implements NonUIFragment.TaskCallback
 
     @Override
     public void onPostExecute() {
-        if (fragment.started==0) {
-            mProgress.setProgress(0);
-            ((Button) findViewById(R.id.actionbutton)).setText(getString(R.string.start));
-            showToast(getString(R.string.Alldone));
-        }
+        mProgress.setProgress(0);
+        ((Button) findViewById(R.id.actionbutton)).setText(getString(R.string.start));
+        fragment.started = 0;
+        showToast(getString(R.string.Alldone));
+
     }
 
     private void launch_setup() {
