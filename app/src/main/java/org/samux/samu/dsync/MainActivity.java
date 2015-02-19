@@ -56,10 +56,8 @@ public class MainActivity extends Activity implements NonUIFragment.TaskCallback
         switch (requestCode) {
             case GET_DRIVE_ACCOUNT:
                 if (resultCode == RESULT_OK) {
-                    Log.d(TAG, "ok");
                     //mainAction();
                 } else {
-                    Log.d(TAG, "ahio "+ resultCode);
                     launch_setup();
                 }
                 break;

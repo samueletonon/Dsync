@@ -34,5 +34,7 @@
     <string name="cancelled">Cancelled by User</string>
     <string name="fromf">From Drive Folder: </string>
     <string name="tof">To Local Folder:  </string>
+    <string name="ret">Retrieving Metadata</string>
+    <string name="prof">Processing Files</string>
 
 </resources>

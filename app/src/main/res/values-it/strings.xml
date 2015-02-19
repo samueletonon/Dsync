@@ -34,5 +34,7 @@
     <string name="cancelled">Operazione Cancellata dall\'utente</string>
     <string name="fromf">Dalla cartella Drive: </string>
     <string name="tof">Alla cartella Locale:  </string>
+    <string name="ret">Recupero informazioni</string>
+    <string name="prof">Elaborazione dei file in corso</string>
 
 </resources>

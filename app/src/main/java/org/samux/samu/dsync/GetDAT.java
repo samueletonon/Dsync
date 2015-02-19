@@ -52,13 +52,16 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
+        procfile = ((Activity) this.mCallbacks).getString(R.string.ret);
+        publishProgress((long)0);
         GFile = retrieveAllFiles(iddrive,lpath);
+        procfile = ((Activity) this.mCallbacks).getString(R.string.prof);
+        publishProgress((long)0);
         for (ItemFile sf : GFile) {
             if (this.isCancelled())
                 break;
             if (sf.dFile.getMimeType().matches("application/vnd.google-apps.folder")) {
                 File theDir = new File(sf.file);
-                Log.e(TAG,"the dir "+sf.file);
                 if (!theDir.exists()) {
                     try {
                         theDir.mkdir();
@@ -67,6 +70,8 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
                     }
                 }
             } else {
+                procfile = "";
+                publishProgress((long)0);
                 //Main Routine to download file
                 boolean same=false;
                 File lf = new File(sf.file);
