@@ -58,10 +58,10 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
                 break;
             if (sf.dFile.getMimeType().matches("application/vnd.google-apps.folder")) {
                 File theDir = new File(sf.file);
-                Log.e(TAG,"the dir"+sf.file);
+                Log.e(TAG,"the dir "+sf.file);
                 if (!theDir.exists()) {
                     try {
-                        boolean v = theDir.mkdir();
+                        theDir.mkdir();
                     } catch (SecurityException se) {
                         Log.e(TAG, "mkdir"+Log.getStackTraceString(se));
                     }
@@ -81,7 +81,8 @@ public class GetDAT extends AsyncTask<Void,Long,Boolean> {
                         }
                     } else {
                         try {
-                            boolean v = lf.createNewFile();
+                            lf.getParentFile().mkdirs();
+                            lf.createNewFile();
                         } catch (IOException ex){
                             Log.e(TAG, "Create: " + Log.getStackTraceString(ex));
                         }
